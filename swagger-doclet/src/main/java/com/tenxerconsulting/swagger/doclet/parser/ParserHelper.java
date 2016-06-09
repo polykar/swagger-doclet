@@ -3,6 +3,11 @@ package com.tenxerconsulting.swagger.doclet.parser;
 import static com.google.common.collect.Lists.transform;
 import static java.util.Arrays.asList;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -307,6 +312,7 @@ public class ParserHelper {
 		}
 	}
 
+	
 	/**
 	 * This gets the qualified type name of a javadoc type,
 	 * It adds [] onto any array types
@@ -315,12 +321,27 @@ public class ParserHelper {
 	 */
 	public static String getQualifiedTypeName(Type type) {
 		String qName = type.qualifiedTypeName();
-		// handle arrays
 		String dimension = type.dimension();
-		if (dimension != null && "[]".equals(dimension)) {
-			qName = qName + "[]";
+		boolean isArray = type.dimension() != null && "[]".equals(dimension);
+
+		if (isArray){
+			// handle arrays
+			if (isArray) {
+				qName = qName + "[]";
+			}
+			return qName;
 		}
-		return qName;
+
+		// don't ask me why i am checking for "isArray" twice...
+		if (isArray(qName) || isCollection(qName) || isSet(qName)) {
+			// checks copy-pasted from "typeOf" method
+			return qName;
+		} 
+			
+		// keep generic type argument
+		// this returns for example 'fixtures.genericuniqueness.Dto<fixtures.genericuniqueness.Foo>'
+		// instead of 'fixtures.genericuniqueness.Dto' as it does when returning qualifiedTypeName.
+		return type.toString();
 	}
 
 	/**

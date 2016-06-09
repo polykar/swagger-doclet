@@ -1,0 +1,60 @@
+{
+    "apiVersion": "0",
+    "swaggerVersion": "1.2",
+    "basePath": "http://localhost:8080",
+    "resourcePath": "/api",
+    "apis": [
+        {
+            "path": "/api/bar",
+            "operations": [
+                {
+                    "method": "GET",
+                    "nickname": "bar",
+                    "type": "Dto<fixtures-genericuniqueness-Bar>"
+                }
+            ]
+        },
+        {
+            "path": "/api/foo",
+            "operations": [
+                {
+                    "method": "GET",
+                    "nickname": "foo",
+                    "type": "Dto<fixtures-genericuniqueness-Foo>"
+                }
+            ]
+        }
+    ],
+    "models": {
+        "Bar": {
+            "id": "Bar",
+            "properties": {}
+        },
+        "Foo": {
+            "id": "Foo",
+            "properties": {}
+        },
+        "Dto<fixtures-genericuniqueness-Foo>": {
+        	"id": "Dto<fixtures-genericuniqueness-Foo>",
+            "properties": {
+                "items": {
+                     "type": "array",
+                     "items": {
+                         "$ref": "Foo"
+                     }
+                }
+            }
+        },
+        "Dto<fixtures-genericuniqueness-Bar>": {
+        	"id": "Dto<fixtures-genericuniqueness-Bar>",
+            "properties": {
+                "items": {
+                     "type": "array",
+                     "items": {
+                         "$ref": "Bar"
+                     }
+                }
+            }
+        }
+    }
+}
